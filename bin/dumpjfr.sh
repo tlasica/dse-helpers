@@ -10,5 +10,5 @@ then
 fi
 
 $JCMD $DSE_PID VM.unlock_commercial_features
-$JCMD $DSE_PID JFR.start name=dse settings=profile settings=memory filename=$FILENAME duration=$DURATION delay=$DELAY
+$JCMD $DSE_PID JFR.start name=dse settings=profile filename=$FILENAME duration=$DURATION delay=$DELAY
 
