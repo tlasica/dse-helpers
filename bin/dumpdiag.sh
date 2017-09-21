@@ -19,7 +19,6 @@ tar czf $OUTDIR/conf.tar.gz `find dse/resources -type f | grep  '/conf/'`
 echo "..dumping logs"
 tar czf $OUTDIR/logs.tar.gz /var/log/cassandra
 
-JCMD=`which jcmd`
 DSE_PID=`ps aux | grep dse.server_process | grep -v "grep" | cut -c10,11,12,13,14,15`
 if [ "x$DSE_PID" == "x" ] 
 then
@@ -31,8 +30,8 @@ then
 	echo "..DSE process not found, skipping threadump and jfr"
 else
 	echo "..DSE process found: $DSE_PID, requesting jfr"
-	$JCMD $DSE_PID VM.unlock_commercial_features
-	$JCMD $DSE_PID JFR.start name=dse settings=profile filename=$OUTDIR/dse.jfr duration=60s delay=10s
+	jcmd $DSE_PID VM.unlock_commercial_features
+	jcmd $DSE_PID JFR.start name=dse settings=profile filename=$OUTDIR/dse.jfr duration=60s delay=10s
 	echo "..generating thread dump for DSE: $DSE_PID"
 	jstack -l $DSE_PID > $OUTDIR/threaddump.txt
 	echo "..watiting 70s for JFR to finish"
